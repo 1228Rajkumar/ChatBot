@@ -1,6 +1,5 @@
 const CHATSENDBTN = document.querySelector(".chat-input #send-btn");
 const RECORDBTNON = document.querySelector(".chat-input #record-on");
-// const TEXTCOPY = document.getElementById("text-copy");
 const CHATAREA = document.querySelector(".chat-input textarea");
 const CHATBOX = document.querySelector(".chatBox");
 
@@ -10,7 +9,7 @@ let Usermessage;
 // const API_KEY = "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";
 // const API_KEY = "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";//hasher
 const API_KEY = "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";//zoho
-// const INPUTINITHEIGHT = CHATAREA.scrollHeight;
+const INPUTINITHEIGHT = CHATAREA.scrollHeight;
 
 let count = 0;
 const createChatLi = (message, className) => {
@@ -25,14 +24,14 @@ const createChatLi = (message, className) => {
 
 
 var i = 0;
-function typeWriter(mes, ele) { 
-  if (i < mes.length) {
-    ele.textContent += mes.charAt(i);
-    i++;
-    setTimeout(function (){
-        typeWriter(mes,ele);
-    } , 8);
-  }
+function typeWriter(mes, ele) {
+    if (i < mes.length) {
+        ele.textContent += mes.charAt(i);
+        i++;
+        setTimeout(function () {
+            typeWriter(mes, ele);
+        }, 8);
+    }
 }
 
 const generateResponse = (incomingChatLi) => {
@@ -59,13 +58,13 @@ const generateResponse = (incomingChatLi) => {
     }
 
     fetch(API_URL, requestOption).then(res => res.json()).then(data => {
-      var  APIResponse = data.choices[0].message.content;
-      if(APIResponse != undefined){
-        messageElment.innerHTML ="";
-        console.log(APIResponse);
-        typeWriter(APIResponse,messageElment);
-      }        
-    // messageElment.textContent = APIResponse;
+        var APIResponse = data.choices[0].message.content;
+        if (APIResponse != undefined) {
+            messageElment.innerHTML = "";
+            console.log(APIResponse);
+            typeWriter(APIResponse, messageElment);
+        }
+        // messageElment.textContent = APIResponse;
     }).catch((error) => {
         messageDivElment.classList.add("error")
         messageElment.textContent = "Oops! something went wrong. please record-ontry again.";
@@ -94,28 +93,33 @@ CHATAREA.addEventListener("input", () => {
     CHATAREA.style.height = `${CHATAREA.scrollHeight}px`;
 })
 
-CHATSENDBTN.addEventListener("click", handleChat);
+CHATAREA.addEventListener("keydown", function (event) {
+    if (event.keyCode === 13) {
+        handleChat();
+    }
+});
 
+CHATSENDBTN.addEventListener("click", handleChat)
 
-function TextCopy(e){
+function TextCopy(e) {
     var subparentDiv = e.parentNode;
     var parentDiv = subparentDiv.parentNode;
     const incomingMessage = parentDiv.querySelector('p');
     if (incomingMessage) {
-    const intext = incomingMessage.textContent; 
-    navigator.clipboard.writeText(intext)
-    .then(() => {
-      e.innerHTML = "check";
-      setTimeout(()=>{
-        e.innerHTML = "content_copy"
-      },5000)
-    })
-    .catch(error => {
-      console.error('Error copying text:', error);
-    });
-} else {
-  console.error('Could not find the <p> tag.');
-}
+        const intext = incomingMessage.textContent;
+        navigator.clipboard.writeText(intext)
+            .then(() => {
+                e.innerHTML = "check";
+                setTimeout(() => {
+                    e.innerHTML = "content_copy"
+                }, 5000)
+            })
+            .catch(error => {
+                console.error('Error copying text:', error);
+            });
+    } else {
+        console.error('Could not find the <p> tag.');
+    }
 }
 
 //speech to Text convert
@@ -144,10 +148,10 @@ const speechToText = () => {
         // recognition.continuous = true;
         recognition.onresult = (event) => {
             var speechResult = event.results[event.results.length - 1][0].transcript;
-                CHATAREA.value = speechResult;
-                CHATAREA.style.height = `${CHATAREA.scrollHeight}px`;
+            CHATAREA.value = speechResult;
+            CHATAREA.style.height = `${CHATAREA.scrollHeight}px`;
         }
-        recognition.onspeechend = function() {
+        recognition.onspeechend = function () {
             stopRecording();
         };
     } catch (error) {
@@ -156,7 +160,7 @@ const speechToText = () => {
 }
 
 // recognition.onstart = function() {
-    
+
 // };
 
 
