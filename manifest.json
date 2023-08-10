@@ -1,0 +1,21 @@
+{
+    "manifest_version": 3,
+    "name": "Guru",
+    "version": "1.0",
+    "description": "ChatBot",
+    "permissions": [
+      "activeTab"
+    ],
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["script.js"]
+      }
+    ],
+    "author": "Rajkumar",
+    "action": {
+      "default_popup": "index.html",
+      "default_icon": "guru.png"
+    }
+  }
+  
