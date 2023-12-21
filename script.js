@@ -7,8 +7,8 @@ const CHATBOX = document.querySelector(".chatBox");
 let Usermessage;
 // const API_KEY = "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";
 // const API_KEY = "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";
-// const API_KEY = "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";//hasher
-const API_KEY = "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";//zoho
+ const API_KEY = "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";//hasher
+//const API_KEY = "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";//zoho
 const INPUTINITHEIGHT = CHATAREA.scrollHeight;
 
 let count = 0;
